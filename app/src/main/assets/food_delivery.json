@@ -1,0 +1,128 @@
+{
+	"categories": [
+		{
+		"id": 1,
+		"name":"Sushi",
+		"filter":[{
+			"name": "Spicy",
+			"id": 1,
+			"menu": [
+		{
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}
+			]
+		}, {
+			"name": "Non Spicy",
+			"id": 2,
+			"menu": [
+		{
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}
+			]
+		}]
+	},
+	
+	{
+		"id": 2,
+		"name":"Drinks",
+		"filter":[{
+			"name": "Wine",
+			"id": 1,
+			"menu": [
+		{
+			"name":"Tesla Tequila",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}
+			]
+		}, {
+			"name": "Beer",
+			"id": 2,
+			"menu": [
+		{
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}
+			]
+		}]
+	},
+{
+		"id": 3,
+		"name":"Sushi",
+		"filter":[{
+			"name": "Beer",
+			"id": 1,
+			"menu": [
+		{
+			"name":"Nigiri",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Narezushi",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Sasazushi",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}
+			]
+		}, {
+			"name": "Wine",
+			"id": 2,
+			"menu": [
+		{
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}, {
+			"name":"Hawaiian",
+			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+			"size" : "200 grams, 35cm"
+		}
+			]
+		}]
+	}
+	]
+}
