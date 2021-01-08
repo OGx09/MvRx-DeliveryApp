@@ -20,9 +20,20 @@ import com.example.dindinapp.models.FoodMenu
 
 class FoodAdapter() : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(FoodCallback()) {
 
+
+    interface OnClickFoodListener{
+        fun onClickFood(foodMenu: FoodMenu)
+    }
+
+    private lateinit var  onClickFoodListener: OnClickFoodListener
+
+    fun setOnClickFoodListener(onClickFoodListener: OnClickFoodListener){
+        this.onClickFoodListener = onClickFoodListener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewViewHolder {
         val view =  LayoutInflater.from(parent.context).inflate(R.layout.food_item, parent, false)
-        return FoodViewViewHolder(view)
+        return FoodViewViewHolder(view, onClickFoodListener)
     }
 
     override fun onBindViewHolder(holder: FoodViewViewHolder, position: Int) {
@@ -30,7 +41,7 @@ class FoodAdapter() : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(Food
     }
 
 
-    class FoodViewViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
+    class FoodViewViewHolder(private val view: View, private  val onClickFoodListener : OnClickFoodListener) : RecyclerView.ViewHolder(view){
 
         fun bind(food: FoodMenu){
             val foodImageView = view.findViewById<ImageView>(R.id.food_image)
@@ -44,6 +55,10 @@ class FoodAdapter() : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(Food
 
             addFoodBtn.setOnClickListener {
                 food.counter +=1
+            }
+
+            view.setOnClickListener {
+                onClickFoodListener.onClickFood(food)
             }
 
             sizeTv.text = food.size

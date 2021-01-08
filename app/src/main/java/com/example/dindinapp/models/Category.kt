@@ -3,5 +3,6 @@ package com.example.dindinapp.models
 data class Category(
     val foodFilter: List<FoodFilter>,
     val id: Int,
-    val name: String
+    val name: String,
+    val isClicked: Boolean =false
 )
