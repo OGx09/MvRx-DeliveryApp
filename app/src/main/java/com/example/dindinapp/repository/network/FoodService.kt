@@ -1,9 +1,11 @@
 package com.example.dindinapp.repository.network
 
 import com.example.dindinapp.models.Category
+import com.example.dindinapp.models.FoodDeliveryResponse
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 // Created by Gbenga Oladipupo(Devmike01) on 1/7/21.
@@ -12,6 +14,7 @@ import retrofit2.http.GET
 
 interface FoodService {
 
-    @GET("/categories")
-    fun getUsers(): Observable<List<Category>>
+    // /v0/b/triviabillionia.appspot.com/o/food_delivery.json?alt=media&token=62ae9400-39cf-4023-85e4-6c7c6a8a2d81
+    @GET("/v0/b/triviabillionia.appspot.com/o/food_delivery.json?alt=media")
+    fun getFoodCategories(@Query("token") token: String): Observable<FoodDeliveryResponse>
 }

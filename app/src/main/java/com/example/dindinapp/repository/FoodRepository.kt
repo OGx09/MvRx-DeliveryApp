@@ -1,6 +1,7 @@
 package com.example.dindinapp.repository
 
 import com.example.dindinapp.models.Category
+import com.example.dindinapp.models.FoodDeliveryResponse
 import com.example.dindinapp.repository.network.FoodService
 import io.reactivex.Observable
 
@@ -9,7 +10,8 @@ import io.reactivex.Observable
 
 class FoodRepository(private val foodService: FoodService) {
 
-    fun requestFood(): Observable<List<Category>> {
-        return foodService.getUsers()
+    fun requestFood(): Observable<FoodDeliveryResponse> {
+
+        return foodService.getFoodCategories("f26ef1b5-e4ba-4396-8eca-ebd319a6eb6c")
     }
 }
