@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView tools:viewBindingIgnore="true"
+<TextView tools:text="Chip"
+    android:id="@+id/filter_chip_tv"
+    tools:viewBindingIgnore="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:scaleType="centerCrop"
-    android:id="@+id/ads_iv"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools" />

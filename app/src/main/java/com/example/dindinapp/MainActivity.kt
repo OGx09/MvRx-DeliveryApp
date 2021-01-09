@@ -1,24 +1,30 @@
 package com.example.dindinapp
 
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.lifecycle.Lifecycle
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.MvRxView
+import com.airbnb.mvrx.activityViewModel
+import com.example.dindinapp.adapter.TopAdViewPagerAdapter
+import com.example.dindinapp.databinding.ActivityMainBinding
 import com.example.dindinapp.viewmodels.FoodDeliveryViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.java.KoinJavaComponent.inject
 
 class MainActivity : AppCompatActivity() {
 
+    val topAdsAdapter: TopAdViewPagerAdapter by inject()
+    private val foodDeliveryViewModel: FoodDeliveryViewModel by inject()
+
+    private lateinit var mainActivityBinding : ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
+        val view = mainActivityBinding.root
+        setContentView(view)
+
+        //val inclView =
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

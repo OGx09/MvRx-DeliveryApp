@@ -18,7 +18,7 @@ import com.example.dindinapp.models.FoodMenu
 // Created by Gbenga Oladipupo(Devmike01) on 1/8/21.
 
 
-class FoodAdapter() : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(FoodCallback()) {
+class FoodAdapter : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(FoodCallback()) {
 
 
     interface OnClickFoodListener{

@@ -4,4 +4,6 @@
     <dimen name="text_margin">15dp</dimen>
     <dimen name="food_item_padding">25dp</dimen>
     <dimen name="advert_height">500dp</dimen>
+    <dimen name="main_content_padding_top">30dp</dimen>
+    <dimen name="main_content_padding_left_right">20dp</dimen>
 </resources>

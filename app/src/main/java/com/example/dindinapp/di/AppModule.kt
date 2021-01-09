@@ -1,6 +1,8 @@
 package com.example.dindinapp.di
 
+import com.example.dindinapp.adapter.FilterChipAdapter
 import com.example.dindinapp.adapter.FoodAdapter
+import com.example.dindinapp.adapter.TopMenuAdapter
 import com.example.dindinapp.repository.FoodRepository
 import com.example.dindinapp.repository.network.FoodService
 import com.example.dindinapp.repository.network.MockWebServer
@@ -32,4 +34,6 @@ val appModule = module {
     single { provideFoodService(get()) }
     single { FoodRepository(get()) }
     factory { FoodAdapter() }
+    factory { FilterChipAdapter() }
+    factory { TopMenuAdapter() }
 }
