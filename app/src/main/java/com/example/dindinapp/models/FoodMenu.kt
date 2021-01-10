@@ -1,9 +1,13 @@
 package com.example.dindinapp.models
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class FoodMenu(
+@Parcelize
+data class FoodMenu (
     @SerializedName("name")
     @Expose
     val name: String,
@@ -29,4 +33,4 @@ data class FoodMenu(
     @Expose
     var currency: String? =null
 
-)
+): Parcelable

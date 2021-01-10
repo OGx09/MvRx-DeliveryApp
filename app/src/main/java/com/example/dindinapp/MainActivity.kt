@@ -1,12 +1,9 @@
 package com.example.dindinapp
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.navigation.Navigation
-import com.airbnb.mvrx.MvRxView
-import com.airbnb.mvrx.activityViewModel
+import androidx.appcompat.app.AppCompatActivity
 import com.example.dindinapp.adapter.TopAdViewPagerAdapter
 import com.example.dindinapp.databinding.ActivityMainBinding
 import com.example.dindinapp.viewmodels.FoodDeliveryViewModel
@@ -25,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val view = mainActivityBinding.root
         setContentView(view)
 
-        //val inclView =
+
     }
 
 
@@ -42,4 +39,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+            //additional code
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
 }

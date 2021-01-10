@@ -2,6 +2,7 @@ package com.example.dindinapp.states
 
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MvRxState
+import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
 import com.example.dindinapp.models.CategoryResponse
 import com.example.dindinapp.models.FoodFilterResponse
@@ -11,7 +12,7 @@ import com.example.dindinapp.models.FoodMenu
 
 
 data class FoodDeliveryState(val foodCategoryResponseList:
-                             Async<List<CategoryResponse>> = Uninitialized,
+                              Async<ArrayList<CategoryResponse>> = Uninitialized,
                              val foodFilter: List<FoodFilterResponse> = emptyList(),
                              val foodAdList: List<String>? = emptyList(),
                              val foodMenuList: List<FoodMenu>? = emptyList()): MvRxState

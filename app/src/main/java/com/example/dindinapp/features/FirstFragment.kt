@@ -1,19 +1,23 @@
 package com.example.dindinapp.features
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.andremion.counterfab.CounterFab
-import com.example.dindinapp.MainActivity
+import com.example.dindinapp.R
 import com.example.dindinapp.adapter.FilterChipAdapter
 import com.example.dindinapp.adapter.FoodAdapter
 import com.example.dindinapp.adapter.TopAdViewPagerAdapter
-import com.example.dindinapp.adapter.TopMenuAdapter
 import com.example.dindinapp.databinding.FragmentFirstBinding
 import com.example.dindinapp.models.CategoryResponse
 import com.example.dindinapp.models.FoodFilterResponse
@@ -23,28 +27,31 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.inject
 
+
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment :BaseMvRxFragment(){
 
-    private val topMenuAdapter : TopMenuAdapter by inject()
     private val filterChipAdapter : FilterChipAdapter by inject()
     private lateinit var topAdViewPagerAdapter : TopAdViewPagerAdapter
     private val foodAdapter : FoodAdapter by inject()
+
+    private val mFoodMenuList = ArrayList<FoodMenu>()
 
     private val foodDeliveryViewModel: FoodDeliveryViewModel by activityViewModel()
 
     private lateinit var binding: FragmentFirstBinding
 
-    private val foodFilterList = ArrayList<FoodFilterResponse>()
-    private lateinit var categoryResponseList : List<CategoryResponse>
+    private lateinit var foodFilterList : ArrayList<FoodFilterResponse>
+    private lateinit var categoryResponseList : ArrayList<CategoryResponse>
 
     private lateinit var tabLayout: TabLayout
 
     private  var hasTabs: Boolean = false
 
     private lateinit var counterFab: CounterFab
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,20 +67,30 @@ class FirstFragment :BaseMvRxFragment(){
         topAdViewPagerAdapter = TopAdViewPagerAdapter(requireActivity().supportFragmentManager)
 
         counterFab = binding.counterFab
+        val txt1 = "Kazarov\ndelivery"
+        val txtSpannable = SpannableString(txt1)
+        val boldSpan = StyleSpan(Typeface.BOLD)
+        txtSpannable.setSpan(boldSpan, 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.titleTv.text = txtSpannable
 
         foodAdapter.setOnAddFoodListener(object : FoodAdapter.OnClickFoodListener {
             override fun onClickFood(foodMenu: FoodMenu) {
                 counterFab.increase()
+                mFoodMenuList.add(foodMenu)
+                foodDeliveryViewModel.setSelectedOrders(foodMenu)
             }
 
         })
 
 
-        topMenuAdapter.setOnClickTopMenuListener(object : TopMenuAdapter.OnClickTopMenuListener {
-            override fun onClickTopMenu(categoryResponse: CategoryResponse) {
-                //counterFab.increase()
-            }
-        })
+
+        counterFab.setOnClickListener { view ->
+            val bundle =  Bundle().apply { putParcelableArrayList(MvRx.KEY_ARG, mFoodMenuList) }
+            bundle.putParcelableArrayList(SecondFragment.ARG_FILTER_LIST, foodFilterList)
+            bundle.putParcelableArrayList(SecondFragment.ARG_CATEGORY_LIST, categoryResponseList)
+            findNavController(this).navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
+        }
 
         //foodDeliveryViewModel.doGetFoodMenuAds()
         setUpFilterRvLayoutManager()
@@ -127,6 +144,7 @@ class FirstFragment :BaseMvRxFragment(){
         val contentProgressbar = binding.incFoodContent.contentProgressbar
 
         withState(foodDeliveryViewModel){ state ->
+
             when(state.foodCategoryResponseList){
                 is Loading -> {
                     contentProgressbar.visibility = View.VISIBLE
@@ -134,20 +152,19 @@ class FirstFragment :BaseMvRxFragment(){
                 is Success -> {
                     this.categoryResponseList = state.foodCategoryResponseList.invoke()
                     val firstCategory = state.foodCategoryResponseList.invoke().first()
-                    foodFilterList.addAll(firstCategory.foodFilterResponse)
+                    foodFilterList = firstCategory.foodFilterResponse
 
-                    if(!hasTabs) {
+                    if (!hasTabs) {
                         state.foodCategoryResponseList.invoke()
                             .forEach {
                                 tabLayout.addTab(tabLayout.newTab().setText(it.name))
                             }
                     }
                     state.foodAdList?.apply {
-
-                        Log.d("MainActivitySize", "Food list -> ${this.size}}")
                         topAdViewPagerAdapter.addAdverts(this)
                     }
                     filterChipAdapter.submitList(state.foodFilter)
+                    Log.d("SecondFragment", "$ ==== > ${state.foodMenuList}")
                     foodAdapter.submitList(state.foodMenuList)
                     //foodDeliveryViewModel.doGetFoodMenu(firstCategory.name)
                     contentProgressbar.visibility = View.GONE
@@ -164,9 +181,7 @@ class FirstFragment :BaseMvRxFragment(){
                     contentProgressbar.visibility = View.GONE
                 }else ->{ }
             }
-
-            Log.d("MainActivityNNc", "Food list -> $state}")
-        }
+    }
 
     }
 
@@ -176,9 +191,17 @@ class FirstFragment :BaseMvRxFragment(){
             .setAction("Action", null).show()
     }
 
+
+
+    fun appBarVisible(){
+        binding.appbar.visibility = View.VISIBLE
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         //binding = null
     }
+
+
 
 }

@@ -13,24 +13,22 @@ import org.koin.java.KoinJavaComponent.inject
 
 // Created by Gbenga Oladipupo(Devmike01) on 1/7/21.
 
-class FoodDeliveryViewModel(private val foodState: FoodDeliveryState,
+class FoodDeliveryViewModel( @PersistState val foodState: FoodDeliveryState,
                             private val foodRepository: FoodRepository):
     BaseMvRxViewModel<FoodDeliveryState>(foodState, debugMode = true) {
 
     private val categoryMap = HashMap<String, List<FoodFilterResponse>>()
-    private val foodMenuMap = HashMap<String, List<FoodMenu>>()
+    private val mFoodMenuList = ArrayList<FoodMenu>()
 
     init {
         doGetFoodCategory(null)
     }
-
 
     fun doGetFoodCategory(category: String?){
         withState {
             foodRepository.requestFood().execute {
                 when (it) {
                     is Success -> {
-                        Log.d("MainActivity", "Food list > ${it.invoke().categoryResponses}")
                         getFoodFilters(it.invoke())
                         val foodList = ArrayList<FoodMenu>()
                         val foodAdList =  ArrayList<String>()
@@ -65,14 +63,10 @@ class FoodDeliveryViewModel(private val foodState: FoodDeliveryState,
         }
     }
 
-
-
-    private fun getFoodMenuAds(){
-        val foodAdList = mutableListOf<FoodMenu>()
-        foodMenuMap.forEach {
-            foodAdList.addAll(it.value.filter{foodMenu -> foodMenu.isPromo})
-        }
+    fun setSelectedOrders(foodMenu: FoodMenu){
+        mFoodMenuList.add(foodMenu)
     }
+
 
     companion object : MvRxViewModelFactory<FoodDeliveryViewModel, FoodDeliveryState> {
         override fun create(viewModelContext: ViewModelContext,

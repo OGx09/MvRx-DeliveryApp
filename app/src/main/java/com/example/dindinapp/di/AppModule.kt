@@ -28,7 +28,6 @@ fun provideRetrofit(): Retrofit {
 fun provideFoodService(retrofit: Retrofit):
         FoodService = retrofit.create(FoodService::class.java)
 
-fun provideFragmentManager(activity: FragmentActivity) = activity.supportFragmentManager
 
 val appModule = module {
     factory { provideRetrofit() }

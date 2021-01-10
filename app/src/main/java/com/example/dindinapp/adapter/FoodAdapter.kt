@@ -64,6 +64,7 @@ class FoodAdapter : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(FoodCa
                 }, 200)
                 food.counter +=1
                 addFoodBtn.text = "added +1"
+                Log.d("MANAGGSOSPART", "$food")
                 onClickFoodListener?.onClickFood(food)
             }
 
