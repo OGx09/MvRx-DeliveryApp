@@ -1,10 +1,7 @@
 package com.example.dindinapp.di
 
 import androidx.fragment.app.FragmentActivity
-import com.example.dindinapp.adapter.FilterChipAdapter
-import com.example.dindinapp.adapter.FoodAdapter
-import com.example.dindinapp.adapter.TopAdViewPagerAdapter
-import com.example.dindinapp.adapter.TopMenuAdapter
+import com.example.dindinapp.adapter.*
 import com.example.dindinapp.repository.FoodRepository
 import com.example.dindinapp.repository.network.FoodService
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -37,4 +34,5 @@ val appModule = module {
     factory { FilterChipAdapter() }
     factory { TopMenuAdapter() }
     single { TopAdViewPagerAdapter(get()) }
+    single { DeliveryItemAdapter() }
 }

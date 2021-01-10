@@ -28,7 +28,7 @@ class FoodAdapter : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(FoodCa
         fun onClickFood(foodMenu: FoodMenu)
     }
 
-    private lateinit var  onClickFoodListener: OnClickFoodListener
+    private var  onClickFoodListener: OnClickFoodListener? =null
 
     fun setOnAddFoodListener(onClickFoodListener: OnClickFoodListener){
         this.onClickFoodListener = onClickFoodListener

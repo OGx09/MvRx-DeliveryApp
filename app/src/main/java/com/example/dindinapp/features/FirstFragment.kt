@@ -9,11 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.andremion.counterfab.CounterFab
+import com.example.dindinapp.MainActivity
 import com.example.dindinapp.R
 import com.example.dindinapp.adapter.FilterChipAdapter
 import com.example.dindinapp.adapter.FoodAdapter
@@ -26,6 +28,7 @@ import com.example.dindinapp.viewmodels.FoodDeliveryViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 
 
 /**
@@ -66,13 +69,14 @@ class FirstFragment :BaseMvRxFragment(){
         super.onViewCreated(view, savedInstanceState)
         topAdViewPagerAdapter = TopAdViewPagerAdapter(requireActivity().supportFragmentManager)
 
-        counterFab = binding.counterFab
         val txt1 = "Kazarov\ndelivery"
         val txtSpannable = SpannableString(txt1)
         val boldSpan = StyleSpan(Typeface.BOLD)
         txtSpannable.setSpan(boldSpan, 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
+        binding.titleTv.setTextColor(if(BuildConfig.VERSION_CODE < 23) {requireActivity().resources.getColor(R.color.white)} else {requireActivity().getColor(R.color.white)})
         binding.titleTv.text = txtSpannable
+
+        counterFab = (requireActivity() as MainActivity).getCartFab()
 
         foodAdapter.setOnAddFoodListener(object : FoodAdapter.OnClickFoodListener {
             override fun onClickFood(foodMenu: FoodMenu) {
@@ -86,10 +90,18 @@ class FirstFragment :BaseMvRxFragment(){
 
 
         counterFab.setOnClickListener { view ->
-            val bundle =  Bundle().apply { putParcelableArrayList(MvRx.KEY_ARG, mFoodMenuList) }
-            bundle.putParcelableArrayList(SecondFragment.ARG_FILTER_LIST, foodFilterList)
-            bundle.putParcelableArrayList(SecondFragment.ARG_CATEGORY_LIST, categoryResponseList)
-            findNavController(this).navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
+            if (mFoodMenuList.isNotEmpty()) {
+                val bundle = Bundle().apply { putParcelableArrayList(MvRx.KEY_ARG, mFoodMenuList) }
+                bundle.putParcelableArrayList(SecondFragment.ARG_FILTER_LIST, foodFilterList)
+                bundle.putParcelableArrayList(
+                    SecondFragment.ARG_CATEGORY_LIST,
+                    categoryResponseList
+                )
+                findNavController(this).navigate(
+                    R.id.action_FirstFragment_to_SecondFragment,
+                    bundle
+                )
+            }
         }
 
         //foodDeliveryViewModel.doGetFoodMenuAds()
@@ -97,6 +109,22 @@ class FirstFragment :BaseMvRxFragment(){
         setUpTopAdRvLayoutManager()
         setUpFoodMenuRvLayoutManager()
         setUpCategoryMenu()
+
+
+
+        binding.incFoodContent.nestedScrollview.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
+            override fun onScrollChange(
+                v: NestedScrollView?,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
+            ) {
+
+               if (scrollY > 30 && !counterFab.isShown) counterFab.show() else if (scrollY < 30 && counterFab.isShown) counterFab.hide()
+            }
+
+        })
     }
 
     private fun setUpFilterRvLayoutManager(){
@@ -136,8 +164,12 @@ class FirstFragment :BaseMvRxFragment(){
     }
 
     private fun setUpTopAdRvLayoutManager(){
-        binding.pager.adapter = topAdViewPagerAdapter
-        binding.dotsIndicator.setViewPager(binding.pager)
+        try {
+            binding.pager.adapter = topAdViewPagerAdapter
+            binding.dotsIndicator.setViewPager(binding.pager)
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     override fun invalidate() {
@@ -191,6 +223,11 @@ class FirstFragment :BaseMvRxFragment(){
             .setAction("Action", null).show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        this.hasTabs = false
+        counterFab.setImageResource(R.drawable.ic_baseline_add_shopping_cart_24)
+    }
 
 
     fun appBarVisible(){

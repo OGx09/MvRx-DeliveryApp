@@ -8,6 +8,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
     <TextView tools:text="Chip"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/filter_chip_tv"
         tools:viewBindingIgnore="true"
         android:layout_width="match_parent"

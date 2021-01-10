@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
+import com.example.dindinapp.MainActivity
 import com.example.dindinapp.R
 import com.example.dindinapp.adapter.FilterChipAdapter
 import com.example.dindinapp.adapter.FoodAdapter
@@ -22,6 +24,7 @@ import com.example.dindinapp.models.FoodFilterResponse
 import com.example.dindinapp.models.FoodMenu
 import com.example.dindinapp.states.FoodDeliveryState
 import com.example.dindinapp.viewmodels.FoodDeliveryViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.android.ext.android.inject
 
 /**
@@ -30,6 +33,7 @@ import org.koin.android.ext.android.inject
 class SecondFragment : BaseMvRxFragment() {
     private val foodAdapter : FoodAdapter by inject()
     private val foodFilterAdapter: FilterChipAdapter by inject()
+    private lateinit var fab: FloatingActionButton
 
     private val foodDeliveryViewModel: FoodDeliveryViewModel by activityViewModel()
 
@@ -67,6 +71,10 @@ class SecondFragment : BaseMvRxFragment() {
             for (i in 0..binding.tabLayout.tabCount){
                 binding.tabLayout.getTabAt(i)?.view?.isClickable = false
             }
+
+            fab = (requireActivity() as MainActivity).getCartFab()
+            fab.setImageResource(R.drawable.ic_baseline_credit_card_24)
+
             binding.contentProgressbar.visibility = View.GONE
             val foodFilterList = arguments?.getParcelableArrayList<FoodFilterResponse>(ARG_FILTER_LIST) as ArrayList<FoodFilterResponse>
             foodFilterAdapter.submitList(foodFilterList)
@@ -79,6 +87,13 @@ class SecondFragment : BaseMvRxFragment() {
 
             val selectedList = arguments?.getParcelableArrayList<FoodMenu>(MvRx.KEY_ARG) as ArrayList<FoodMenu>
             foodAdapter.submitList(selectedList)
+
+            fab.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putParcelableArrayList(DeliveryFragment.ARG_FOOD_MENUS, selectedList)
+                NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_SecondFragment_to_DeliveryFragment, bundle)
+            }
         }
         foodAdapter.setOnAddFoodListener(object : FoodAdapter.OnClickFoodListener{
             override fun onClickFood(foodMenu: FoodMenu) {
@@ -86,7 +101,13 @@ class SecondFragment : BaseMvRxFragment() {
             }
 
         })
+
+
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
 
