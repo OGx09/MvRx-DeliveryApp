@@ -1,5 +1,10 @@
 package com.example.dindinapp.models
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
 data class FoodDeliveryResponse(
-    val categories: List<Category>
+    @SerializedName("categories")
+    @Expose
+    val categoryResponses: List<CategoryResponse>
 )

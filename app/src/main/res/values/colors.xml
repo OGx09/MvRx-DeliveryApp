@@ -7,4 +7,5 @@
     <color name="btn_green">#008000</color>
     <color name="white">#fff</color>
     <color name="grey">#C7C7C7</color>
+    <color name="light_grey">#F4F4F4</color>
 </resources>

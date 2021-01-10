@@ -1,54 +1,53 @@
 package com.example.dindinapp.viewmodels
 
+import android.util.Log
 import com.airbnb.mvrx.*
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.example.dindinapp.models.FoodDeliveryResponse
-import com.example.dindinapp.models.FoodFilter
+import com.example.dindinapp.models.FoodFilterResponse
 import com.example.dindinapp.models.FoodMenu
 import com.example.dindinapp.repository.FoodRepository
 import com.example.dindinapp.states.FoodDeliveryState
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.Observable
 import org.koin.java.KoinJavaComponent.inject
 
 // Created by Gbenga Oladipupo(Devmike01) on 1/7/21.
 
-
-class FoodDeliveryViewModel(val foodState: FoodDeliveryState,
+class FoodDeliveryViewModel(private val foodState: FoodDeliveryState,
                             private val foodRepository: FoodRepository):
     BaseMvRxViewModel<FoodDeliveryState>(foodState, debugMode = true) {
 
-    private val categoryMap = HashMap<String, List<FoodFilter>>()
+    private val categoryMap = HashMap<String, List<FoodFilterResponse>>()
     private val foodMenuMap = HashMap<String, List<FoodMenu>>()
 
-
-    fun doGetFoodFilters(category: String, foodDeliveryResponse: FoodDeliveryResponse){
-        withState {
-            Success(getFoodFilters(category, foodDeliveryResponse))
-        }
+    init {
+        doGetFoodCategory(null)
     }
 
 
-    fun doGetFoodMenuAds(category: String, filter: String, foodDeliveryResponse: FoodDeliveryResponse){
-        withState {
-            Success(getFoodMenuAds())
-        }
-    }
-
-    fun doGetFoodMenu(category: String, filter: String, foodDeliveryResponse: FoodDeliveryResponse){
-        withState {
-            Success(getFoodMenu(category, filter))
-        }
-    }
-
-    fun doGetFoodCategory(){
+    fun doGetFoodCategory(category: String?){
         withState {
             foodRepository.requestFood().execute {
                 when (it) {
                     is Success -> {
-                        copy(foodCategoryList =  Success(it.invoke().categories))
+                        Log.d("MainActivity", "Food list > ${it.invoke().categoryResponses}")
+                        getFoodFilters(it.invoke())
+                        val foodList = ArrayList<FoodMenu>()
+                        val foodAdList =  ArrayList<String>()
+                        val mFoodFilter = ArrayList<FoodFilterResponse>()
+
+                        if(category != null) {
+                            categoryMap[category]?.forEach { foodFilter ->
+                                mFoodFilter.add(foodFilter)
+                                foodList.addAll(foodFilter.foodMenus)
+                                foodAdList.addAll(foodFilter.foodMenus.filter { foodMenu ->  foodMenu.isPromo}.map { data -> data.image })
+                            }
+                        }
+                        copy(foodCategoryResponseList =  Success(it.invoke().categoryResponses),
+                            foodMenuList = foodList, foodFilter =mFoodFilter, foodAdList = foodAdList)
                     }
                     is Fail -> {
-                        copy(foodMenuList = Fail(it.error))
+                        copy(foodCategoryResponseList = Fail(it.error))
                     }
                     else -> {
                         copy()
@@ -59,25 +58,14 @@ class FoodDeliveryViewModel(val foodState: FoodDeliveryState,
 
     }
 
-    private fun getFoodFilters(category: String, foodDeliveryResponse: FoodDeliveryResponse):  List<FoodFilter>?{
+    private fun getFoodFilters(foodDeliveryResponse: FoodDeliveryResponse){
+        foodDeliveryResponse.categoryResponses.forEach {
 
-        foodDeliveryResponse.categories.forEach {
-            //Categories
-            categoryMap[it.name] = it.foodFilter
+            categoryMap[it.name] = it.foodFilterResponse
         }
-        return categoryMap[category]
     }
 
 
-
-    private fun getFoodMenu(category: String, filter: String):
-            List<FoodMenu>?{
-        categoryMap[category]?.forEach {
-            //Categories
-            foodMenuMap[it.name] = it.foodMenus
-        }
-        return foodMenuMap[filter]
-    }
 
     private fun getFoodMenuAds(){
         val foodAdList = mutableListOf<FoodMenu>()

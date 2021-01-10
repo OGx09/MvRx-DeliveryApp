@@ -1,6 +1,5 @@
 package com.example.dindinapp
 
-import com.example.dindinapp.repository.network.MockWebServer
 import org.junit.Test
 
 import org.junit.Assert.*

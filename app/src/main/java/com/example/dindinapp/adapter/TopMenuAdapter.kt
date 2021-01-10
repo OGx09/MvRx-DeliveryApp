@@ -1,18 +1,13 @@
 package com.example.dindinapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.dindinapp.R
-import com.example.dindinapp.models.Category
-import com.example.dindinapp.models.FoodMenu
+import com.example.dindinapp.models.CategoryResponse
 
 // Created by Gbenga Oladipupo(Devmike01) on 1/8/21.
 
@@ -20,7 +15,7 @@ import com.example.dindinapp.models.FoodMenu
 class TopMenuAdapter: RecyclerView.Adapter<TopMenuAdapter.TopMenuViewHolder>() {
 
     interface OnClickTopMenuListener{
-        fun onClickTopMenu(category: Category)
+        fun onClickTopMenu(categoryResponse: CategoryResponse)
     }
 
     private lateinit var onClickTopMenuListener: OnClickTopMenuListener
@@ -29,7 +24,7 @@ class TopMenuAdapter: RecyclerView.Adapter<TopMenuAdapter.TopMenuViewHolder>() {
         this.onClickTopMenuListener = onClickTopMenuListener
     }
 
-    private val categoryList = ArrayList<Category>()
+    private val categoryList = ArrayList<CategoryResponse>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopMenuViewHolder {
         val view =  LayoutInflater.from(parent.context).inflate(R.layout.top_menu_item_layout, parent, false)
@@ -41,22 +36,27 @@ class TopMenuAdapter: RecyclerView.Adapter<TopMenuAdapter.TopMenuViewHolder>() {
     }
 
 
-    class TopMenuViewHolder(private val view: View, private val onClickTopMenuListener: OnClickTopMenuListener) : RecyclerView.ViewHolder(view){
+    class TopMenuViewHolder(private val view: View, private val onClickTopMenuListener: OnClickTopMenuListener?) : RecyclerView.ViewHolder(view){
 
-        fun bind(category: Category){
+        fun bind(categoryResponse: CategoryResponse){
             val menuTitleTv = view.findViewById<TextView>(R.id.menu_title_tv)
-            menuTitleTv.text = category.name
+            menuTitleTv.text = categoryResponse.name
             view.setOnClickListener {
-                onClickTopMenuListener.onClickTopMenu(category)
+                if(onClickTopMenuListener ==null) {
+                    onClickTopMenuListener?.onClickTopMenu(categoryResponse)
+                }else{
+                    Log.e("TopMenuAdapter", "OnClickTopMenuListener is null")
+                }
             }
         }
 
     }
 
-    fun add(categoryList : ArrayList<Category>){
-        categoryList.addAll(categoryList)
+    fun add(categoryResponse : CategoryResponse){
+        categoryList.add(categoryResponse)
         notifyDataSetChanged()
     }
+
     override fun getItemCount(): Int {
      return categoryList.size
     }

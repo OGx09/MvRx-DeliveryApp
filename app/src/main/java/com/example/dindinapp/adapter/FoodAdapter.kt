@@ -1,7 +1,10 @@
 package com.example.dindinapp.adapter
 
+import android.os.Handler
+import android.os.Looper
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +30,7 @@ class FoodAdapter : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(FoodCa
 
     private lateinit var  onClickFoodListener: OnClickFoodListener
 
-    fun setOnClickFoodListener(onClickFoodListener: OnClickFoodListener){
+    fun setOnAddFoodListener(onClickFoodListener: OnClickFoodListener){
         this.onClickFoodListener = onClickFoodListener
     }
 
@@ -37,29 +40,33 @@ class FoodAdapter : ListAdapter<FoodMenu, FoodAdapter.FoodViewViewHolder>(FoodCa
     }
 
     override fun onBindViewHolder(holder: FoodViewViewHolder, position: Int) {
+
+        Log.d("MainActivity@12", "Food list -> $position}")
         holder.bind(getItem(position))
     }
 
 
-    class FoodViewViewHolder(private val view: View, private  val onClickFoodListener : OnClickFoodListener) : RecyclerView.ViewHolder(view){
+    class FoodViewViewHolder(private val view: View, private  val onClickFoodListener : OnClickFoodListener?) : RecyclerView.ViewHolder(view){
 
         fun bind(food: FoodMenu){
             val foodImageView = view.findViewById<ImageView>(R.id.food_image)
             val foodNameTv = view.findViewById<TextView>(R.id.food_title_tv)
             val foodDescTv = view.findViewById<TextView>(R.id.desc_tv)
 
-
             val sizePrizeView = view.findViewById<View>(R.id.size_prize_layout)
             val sizeTv = sizePrizeView.findViewById<TextView>(R.id.size_tv)
             val addFoodBtn = sizePrizeView.findViewById<Button>(R.id.add_btn)
+            "${food.price} ${food.currency}".also { addFoodBtn.text = it }
 
             addFoodBtn.setOnClickListener {
+                Handler(Looper.myLooper()!!).postDelayed({
+                    "${food.price} ${food.currency}".also { addFoodBtn.text = it }
+                }, 200)
                 food.counter +=1
+                addFoodBtn.text = "added +1"
+                onClickFoodListener?.onClickFood(food)
             }
 
-            view.setOnClickListener {
-                onClickFoodListener.onClickFood(food)
-            }
 
             sizeTv.text = food.size
             foodNameTv.text = food.name

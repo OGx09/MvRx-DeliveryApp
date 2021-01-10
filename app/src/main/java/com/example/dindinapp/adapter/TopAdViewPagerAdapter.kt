@@ -30,8 +30,8 @@ class TopAdViewPagerAdapter(fm: FragmentManager) :
         return fragment
     }
 
-    override fun getCount() = if (this::advertList.isLateinit){ 0 }else {
-        advertList.size
+    override fun getCount() = if (this::advertList.isInitialized){ advertList.size }else {
+        0
     }
 
 }

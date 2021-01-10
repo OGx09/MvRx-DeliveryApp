@@ -1,6 +1,5 @@
 package com.example.dindinapp.repository
 
-import com.example.dindinapp.models.Category
 import com.example.dindinapp.models.FoodDeliveryResponse
 import com.example.dindinapp.repository.network.FoodService
 import io.reactivex.Observable
