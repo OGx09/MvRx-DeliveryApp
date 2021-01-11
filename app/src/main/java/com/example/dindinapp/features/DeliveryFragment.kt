@@ -24,6 +24,7 @@ class DeliveryFragment : BaseMvRxFragment() {
 
     companion object{
 
+        const val ARG_FOOD_DELIVERY ="DeliveryFragment.ARG_FOOD_DELIVERY"
         const val ARG_FOOD_MENUS ="DeliveryFragment.ARG_FOOD_MENUS"
 
         fun newInstance(foodMenuList: ArrayList<FoodMenu>): DeliveryFragment{
@@ -57,7 +58,12 @@ class DeliveryFragment : BaseMvRxFragment() {
         val foodList = arguments?.getParcelableArrayList<FoodMenu>(ARG_FOOD_MENUS) as ArrayList<FoodMenu>
         deliveryAdapter.submitList(foodList)
 
-        binding.sumTv.text = deliveryAdapter.getSum()
+       deliveryAdapter.setOnSumCalculatorListener(object : DeliveryItemAdapter.OnSumCalculatorListener{
+           override fun onSumCalculate(total: String) {
+               binding.sumTv.text = total
+           }
+
+       })
 
         //val tab = binding.tabLayout.newTab()
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Cart"))

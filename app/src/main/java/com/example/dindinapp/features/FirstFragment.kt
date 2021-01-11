@@ -62,6 +62,8 @@ class FirstFragment :BaseMvRxFragment(){
     ): View {
         binding = FragmentFirstBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
+
+        foodDeliveryViewModel.doGetFoodCategory(null)
         return binding.root
     }
 
@@ -110,8 +112,6 @@ class FirstFragment :BaseMvRxFragment(){
         setUpFoodMenuRvLayoutManager()
         setUpCategoryMenu()
 
-
-
         binding.incFoodContent.nestedScrollview.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
             override fun onScrollChange(
                 v: NestedScrollView?,
@@ -125,6 +125,45 @@ class FirstFragment :BaseMvRxFragment(){
             }
 
         })
+
+        foodDeliveryViewModel.subscribe {state->
+            val contentProgressbar = binding.incFoodContent.contentProgressbar
+            when(state.foodCategoryResponseList){
+                is Loading -> {
+                    contentProgressbar.visibility = View.VISIBLE
+                }
+                is Success -> {
+                    this.categoryResponseList = state.foodCategoryResponseList.invoke()
+                    val firstCategory = state.foodCategoryResponseList.invoke().first()
+                    foodFilterList = firstCategory.foodFilterResponse
+
+                    if (!hasTabs) {
+                        state.foodCategoryResponseList.invoke()
+                            .forEach {
+                                tabLayout.addTab(tabLayout.newTab().setText(it.name))
+                            }
+                    }
+                    state.foodAdList?.apply {
+                        topAdViewPagerAdapter.addAdverts(this)
+                    }
+                    filterChipAdapter.submitList(state.foodFilter)
+                    foodAdapter.submitList(state.foodMenuList)
+                    //foodDeliveryViewModel.doGetFoodMenu(firstCategory.name)
+                    contentProgressbar.visibility = View.GONE
+                    hasTabs = true
+                }
+
+                is Fail -> {
+                    Snackbar.make(
+                        requireActivity().window.decorView,
+                        "An error has occurred",
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction("Action", null).show()
+                    contentProgressbar.visibility = View.GONE
+                }else ->{ }
+            }
+        }
     }
 
     private fun setUpFilterRvLayoutManager(){
@@ -166,50 +205,12 @@ class FirstFragment :BaseMvRxFragment(){
     private fun setUpTopAdRvLayoutManager(){
         binding.pager.adapter = topAdViewPagerAdapter
         binding.dotsIndicator.setViewPager(binding.pager)
+        binding.pager.offscreenPageLimit = 1;
     }
 
     override fun invalidate() {
-        val contentProgressbar = binding.incFoodContent.contentProgressbar
 
-        withState(foodDeliveryViewModel){ state ->
 
-            when(state.foodCategoryResponseList){
-                is Loading -> {
-                    contentProgressbar.visibility = View.VISIBLE
-                }
-                is Success -> {
-                    this.categoryResponseList = state.foodCategoryResponseList.invoke()
-                    val firstCategory = state.foodCategoryResponseList.invoke().first()
-                    foodFilterList = firstCategory.foodFilterResponse
-
-                    if (!hasTabs) {
-                        state.foodCategoryResponseList.invoke()
-                            .forEach {
-                                tabLayout.addTab(tabLayout.newTab().setText(it.name))
-                            }
-                    }
-                    state.foodAdList?.apply {
-                        topAdViewPagerAdapter.addAdverts(this)
-                    }
-                    filterChipAdapter.submitList(state.foodFilter)
-                    Log.d("SecondFragment", "$ ==== > ${state.foodMenuList}")
-                    foodAdapter.submitList(state.foodMenuList)
-                    //foodDeliveryViewModel.doGetFoodMenu(firstCategory.name)
-                    contentProgressbar.visibility = View.GONE
-                    hasTabs = true
-                }
-
-                is Fail -> {
-                    Snackbar.make(
-                        requireActivity().window.decorView,
-                        "An error has occurred",
-                        Snackbar.LENGTH_LONG
-                    )
-                        .setAction("Action", null).show()
-                    contentProgressbar.visibility = View.GONE
-                }else ->{ }
-            }
-    }
 
     }
 

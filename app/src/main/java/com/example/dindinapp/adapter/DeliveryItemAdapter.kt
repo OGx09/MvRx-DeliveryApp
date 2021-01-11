@@ -1,5 +1,6 @@
 package com.example.dindinapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,17 @@ class DeliveryItemAdapter : RecyclerView.Adapter<DeliveryItemAdapter.DeliveryIte
 
     private var foodMenuList: List<FoodMenu>? =null
 
-    private var currency: String? =null
+    private var mCurrency: String? =null
     private var sum: Int =0
+    private var onSumCalculate: OnSumCalculatorListener? = null
+
+    public fun setOnSumCalculatorListener(onSumCalculate: OnSumCalculatorListener){
+        this.onSumCalculate = onSumCalculate
+    }
+
+    interface OnSumCalculatorListener{
+        fun onSumCalculate(total: String)
+    }
 
     fun submitList(foodMenuList: List<FoodMenu>){
         this.foodMenuList = foodMenuList
@@ -40,13 +50,15 @@ class DeliveryItemAdapter : RecyclerView.Adapter<DeliveryItemAdapter.DeliveryIte
 
     override fun onBindViewHolder(holder: DeliveryItemViewHolder, position: Int) {
         foodMenuList?.get(position)?.apply {
-           sum += sum
-            this.currency = currency
+           sum += this.price
+            mCurrency = currency
+            onSumCalculate?.onSumCalculate("$sum $currency")
+            Log.d("DeliveryItemAdapter", "Sum $sum")
             holder.bindTo(this)
         }
     }
 
-    fun getSum(): String   = "$currency $sum"
+    fun getSum(): String   = "$mCurrency $sum"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeliveryItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.order_list_item, parent, false)

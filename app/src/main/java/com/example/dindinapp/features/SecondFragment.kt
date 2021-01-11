@@ -94,7 +94,7 @@ class SecondFragment : BaseMvRxFragment() {
         }
         foodAdapter.setOnAddFoodListener(object : FoodAdapter.OnClickFoodListener{
             override fun onClickFood(foodMenu: FoodMenu) {
-
+                return
             }
 
         })

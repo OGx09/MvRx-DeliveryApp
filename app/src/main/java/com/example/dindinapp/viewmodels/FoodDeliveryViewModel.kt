@@ -9,27 +9,31 @@ import com.example.dindinapp.models.FoodMenu
 import com.example.dindinapp.repository.FoodRepository
 import com.example.dindinapp.states.FoodDeliveryState
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.koin.java.KoinJavaComponent.inject
+import java.lang.Exception
 
 // Created by Gbenga Oladipupo(Devmike01) on 1/7/21.
 
-class FoodDeliveryViewModel( @PersistState val foodState: FoodDeliveryState,
+class FoodDeliveryViewModel(private val foodState: FoodDeliveryState,
                             private val foodRepository: FoodRepository):
-    BaseMvRxViewModel<FoodDeliveryState>(foodState, debugMode = true) {
+    BaseMvRxViewModel<FoodDeliveryState>(foodState, debugMode = false) {
 
     private val categoryMap = HashMap<String, List<FoodFilterResponse>>()
     private val mFoodMenuList = ArrayList<FoodMenu>()
+    private var isDispose = false
 
-    init {
-        doGetFoodCategory(null)
-    }
 
     fun doGetFoodCategory(category: String?){
+
         withState {
-            foodRepository.requestFood().execute {
+            isDispose =foodRepository.requestFood().subscribeOn(Schedulers.io())
+                .execute {
                 when (it) {
                     is Success -> {
-                        getFoodFilters(it.invoke())
+                        it.invoke()?.let { it1 -> getFoodFilters(it1) }
                         val foodList = ArrayList<FoodMenu>()
                         val foodAdList =  ArrayList<String>()
                         val mFoodFilter = ArrayList<FoodFilterResponse>()
@@ -41,17 +45,18 @@ class FoodDeliveryViewModel( @PersistState val foodState: FoodDeliveryState,
                                 foodAdList.addAll(foodFilter.foodMenus.filter { foodMenu ->  foodMenu.isPromo}.map { data -> data.image })
                             }
                         }
-                        copy(foodCategoryResponseList =  Success(it.invoke().categoryResponses),
+                        if(isDispose )copy()
+                        copy(foodCategoryResponseList = Success(it.invoke()!!.categoryResponses),
                             foodMenuList = foodList, foodFilter =mFoodFilter, foodAdList = foodAdList)
                     }
                     is Fail -> {
                         copy(foodCategoryResponseList = Fail(it.error))
                     }
                     else -> {
-                        copy()
+                       copy()
                     }
                 }
-            }
+            }.isDisposed
         }
 
     }
