@@ -1,128 +1,200 @@
 {
 	"categories": [
 		{
-		"id": 1,
-		"name":"Sushi",
-		"filter":[{
-			"name": "Spicy",
 			"id": 1,
-			"menu": [
+			"name":"Sushi",
+			"filter":[{
+				"name": "Spicy",
+				"id": 1,
+				"menu": [
+					{
+						"name":"Spicy Sauce",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": true,
+						"currency": "usd",
+						"price": 92
+					}, {
+						"name":"Hawaiian Pepper",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 29
+					}, {
+						"name":"Chilly Spice",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": true,
+						"currency": "usd",
+						"price": 88
+					}
+				]
+			}, {
+				"name": "Non Spicy",
+				"id": 2,
+				"menu": [
+					{
+						"name":"Pineapple Chicken",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 51
+					}, {
+						"name":"Goat Meat",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 90
+					}, {
+						"name":"Domino Beef",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 44
+					}
+				]
+			}]
+		},
+
 		{
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}
-			]
-		}, {
-			"name": "Non Spicy",
 			"id": 2,
-			"menu": [
+			"name":"Drinks",
+			"filter":[{
+				"name": "Wine",
+				"id": 1,
+				"menu": [
+					{
+						"name":"Tesla Tequila",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"currency": "usd",
+						"isPromo": false,
+						"price": 99
+					}, {
+						"name":"Hawaiian",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 90
+					}, {
+						"name":"Hawaiian",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 55
+					}
+				]
+			}, {
+				"name": "Beer",
+				"id": 2,
+				"menu": [
+					{
+						"name":"Hawaiian Beer",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 41
+					}, {
+						"name":"Chicken Beer",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 44
+					}, {
+						"name":"Salad Beer",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 30
+					}
+				]
+			}]
+		},
 		{
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
+			"id": 3,
+			"name":"Shawarma",
+			"filter":[{
+				"name": "Spicy",
+				"id": 1,
+				"menu": [
+					{
+						"name":"Pav Shawarma",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://i.ndtvimg.com/i/2017-07/shawarma_635x350_71499163224.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 10
+					}, {
+						"name":"Open Shawarma",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 88
+					}, {
+						"name":"Khabus Shawarma",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 60
+					}
+				]
+			}, {
+				"name": "Wine",
+				"id": 2,
+				"menu": [
+					{
+						"name":"Hawaiian Wine",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 53
+					}, {
+						"name":"Nigerian Wine",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://i.ndtvimg.com/i/2017-07/shawarma_635x350_71499163224.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 33
+					}, {
+						"name":"Singaporean Wine",
+						"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
+						"size" : "200 grams, 35cm",
+						"image" : "https://media-cdn.tripadvisor.com/media/photo-s/12/5f/82/9f/al-forno.jpg",
+						"isPromo": false,
+						"currency": "usd",
+						"price": 20
+					}
+				]
+			}]
 		}
-			]
-		}]
-	},
-	
-	{
-		"id": 2,
-		"name":"Drinks",
-		"filter":[{
-			"name": "Wine",
-			"id": 1,
-			"menu": [
-		{
-			"name":"Tesla Tequila",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}
-			]
-		}, {
-			"name": "Beer",
-			"id": 2,
-			"menu": [
-		{
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}
-			]
-		}]
-	},
-{
-		"id": 3,
-		"name":"Sushi",
-		"filter":[{
-			"name": "Beer",
-			"id": 1,
-			"menu": [
-		{
-			"name":"Nigiri",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Narezushi",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Sasazushi",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}
-			]
-		}, {
-			"name": "Wine",
-			"id": 2,
-			"menu": [
-		{
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}, {
-			"name":"Hawaiian",
-			"recipe": ["Chicken", "Pineapple", "Domino's sauce"],
-			"size" : "200 grams, 35cm"
-		}
-			]
-		}]
-	}
 	]
 }

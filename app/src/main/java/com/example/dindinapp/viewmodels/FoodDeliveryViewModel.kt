@@ -3,6 +3,7 @@ package com.example.dindinapp.viewmodels
 import android.util.Log
 import com.airbnb.mvrx.*
 import com.airbnb.mvrx.MvRxViewModelFactory
+import com.example.dindinapp.models.CategoryResponse
 import com.example.dindinapp.models.FoodDeliveryResponse
 import com.example.dindinapp.models.FoodFilterResponse
 import com.example.dindinapp.models.FoodMenu
@@ -23,30 +24,33 @@ class FoodDeliveryViewModel(private val foodState: FoodDeliveryState,
 
     private val categoryMap = HashMap<String, List<FoodFilterResponse>>()
     private val mFoodMenuList = ArrayList<FoodMenu>()
-    private var isDispose = false
 
 
     fun doGetFoodCategory(category: String?){
 
         withState {
-            isDispose =foodRepository.requestFood().subscribeOn(Schedulers.io())
+            foodRepository.requestFood()
                 .execute {
                 when (it) {
                     is Success -> {
-                        it.invoke()?.let { it1 -> getFoodFilters(it1) }
+                        it.invoke().let { it1 -> getFoodFilters(it1) }
                         val foodList = ArrayList<FoodMenu>()
                         val foodAdList =  ArrayList<String>()
                         val mFoodFilter = ArrayList<FoodFilterResponse>()
+                        var result : Async<ArrayList<CategoryResponse>>? = null
 
                         if(category != null) {
-                            categoryMap[category]?.forEach { foodFilter ->
-                                mFoodFilter.add(foodFilter)
-                                foodList.addAll(foodFilter.foodMenus)
-                                foodAdList.addAll(foodFilter.foodMenus.filter { foodMenu ->  foodMenu.isPromo}.map { data -> data.image })
+                            if(categoryMap[category].isNullOrEmpty()){
+                                result = Fail(Exception("$category Category not found"))
+                            }else{
+                                categoryMap[category]?.forEach { foodFilter ->
+                                    mFoodFilter.add(foodFilter)
+                                    foodList.addAll(foodFilter.foodMenus)
+                                    foodAdList.addAll(foodFilter.foodMenus.filter { foodMenu ->  foodMenu.isPromo}.map { data -> data.image })
+                                }
                             }
                         }
-                        if(isDispose )copy()
-                        copy(foodCategoryResponseList = Success(it.invoke()!!.categoryResponses),
+                        copy(foodCategoryResponseList = result ?: Success(it.invoke().categoryResponses),
                             foodMenuList = foodList, foodFilter =mFoodFilter, foodAdList = foodAdList)
                     }
                     is Fail -> {
@@ -56,7 +60,7 @@ class FoodDeliveryViewModel(private val foodState: FoodDeliveryState,
                        copy()
                     }
                 }
-            }.isDisposed
+            }
         }
 
     }
