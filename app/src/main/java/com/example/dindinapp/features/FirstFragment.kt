@@ -89,8 +89,6 @@ class FirstFragment :BaseMvRxFragment(){
 
         })
 
-
-
         counterFab.setOnClickListener { view ->
             if (mFoodMenuList.isNotEmpty()) {
                 val bundle = Bundle().apply { putParcelableArrayList(MvRx.KEY_ARG, mFoodMenuList) }
@@ -112,19 +110,7 @@ class FirstFragment :BaseMvRxFragment(){
         setUpFoodMenuRvLayoutManager()
         setUpCategoryMenu()
 
-        binding.incFoodContent.nestedScrollview.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
-            override fun onScrollChange(
-                v: NestedScrollView?,
-                scrollX: Int,
-                scrollY: Int,
-                oldScrollX: Int,
-                oldScrollY: Int
-            ) {
-
-               if (scrollY > 30 && !counterFab.isShown) counterFab.show() else if (scrollY < 30 && counterFab.isShown) counterFab.hide()
-            }
-
-        })
+        binding.incFoodContent.nestedScrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY -> if (scrollY > 30 && !counterFab.isShown) counterFab.show() else if (scrollY < 30 && counterFab.isShown) counterFab.hide() })
 
         foodDeliveryViewModel.subscribe {state->
             val contentProgressbar = binding.incFoodContent.contentProgressbar

@@ -23,11 +23,10 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FirstFragmentTest {
 
+    val scenario = launchFragmentInContainer<FirstFragment>()
+
     @Before
     fun init(){
-
-        val scenario = launchFragmentInContainer<FirstFragment>()
-
     }
 
     @Test
