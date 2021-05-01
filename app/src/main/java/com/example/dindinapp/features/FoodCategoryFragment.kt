@@ -34,7 +34,7 @@ import java.lang.Exception
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment :BaseMvRxFragment(){
+class FoodCategoryFragment :BaseMvRxFragment(){
 
     private val filterChipAdapter : FilterChipAdapter by inject()
     private lateinit var topAdViewPagerAdapter : TopAdViewPagerAdapter
@@ -75,7 +75,8 @@ class FirstFragment :BaseMvRxFragment(){
         val txtSpannable = SpannableString(txt1)
         val boldSpan = StyleSpan(Typeface.BOLD)
         txtSpannable.setSpan(boldSpan, 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.titleTv.setTextColor(if(BuildConfig.VERSION_CODE < 23) {requireActivity().resources.getColor(R.color.white)} else {requireActivity().getColor(R.color.white)})
+        binding.titleTv.setTextColor(if(BuildConfig.VERSION_CODE < 23) {
+            requireActivity().resources.getColor(R.color.white)} else {requireActivity().getColor(R.color.white)})
         binding.titleTv.text = txtSpannable
 
         counterFab = (requireActivity() as MainActivity).getCartFab()

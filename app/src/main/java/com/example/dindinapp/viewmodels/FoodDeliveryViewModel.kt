@@ -9,10 +9,6 @@ import com.example.dindinapp.models.FoodFilterResponse
 import com.example.dindinapp.models.FoodMenu
 import com.example.dindinapp.repository.FoodRepository
 import com.example.dindinapp.states.FoodDeliveryState
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.Exception
 
@@ -25,15 +21,35 @@ class FoodDeliveryViewModel(private val foodState: FoodDeliveryState,
     private val categoryMap = HashMap<String, List<FoodFilterResponse>>()
     private val mFoodMenuList = ArrayList<FoodMenu>()
 
+    init {
+        getStarred()
+    }
+
+    fun getStarred(){
+        withState {
+            foodRepository.getStarred().execute {
+                when(it){
+                    is Success ->{
+                        Log.d("FoodDeliveryViewModel", "${it.invoke()}")
+                        copy(starredResponse = Success(it.invoke()))
+                    } is Fail ->{
+                    Log.d("FoodDeliveryViewModel", "ERROR _> ${it.error}")
+                    copy(starredResponse = Fail(it.error))
+                    }else -> {
+                        copy()
+                    }
+                }
+            }
+        }
+    }
 
     fun doGetFoodCategory(category: String?){
-
         withState {
             foodRepository.requestFood()
                 .execute {
                 when (it) {
                     is Success -> {
-                        it.invoke().let { it1 -> getFoodFilters(it1) }
+                        getFoodFilters(it.invoke())
                         val foodList = ArrayList<FoodMenu>()
                         val foodAdList =  ArrayList<String>()
                         val mFoodFilter = ArrayList<FoodFilterResponse>()

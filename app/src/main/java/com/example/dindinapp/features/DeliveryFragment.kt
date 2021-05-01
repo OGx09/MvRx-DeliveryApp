@@ -7,15 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.example.dindinapp.adapter.DeliveryItemAdapter
-import com.example.dindinapp.adapter.FoodAdapter
 import com.example.dindinapp.databinding.DeliveryLayoutBinding
-import com.example.dindinapp.databinding.FragmentFirstBinding
 import com.example.dindinapp.models.FoodMenu
 import org.koin.android.ext.android.inject
 
 // Created by Gbenga Oladipupo(Devmike01) on 1/10/21.
-
-
 class DeliveryFragment : BaseMvRxFragment() {
 
     private lateinit var binding : DeliveryLayoutBinding
